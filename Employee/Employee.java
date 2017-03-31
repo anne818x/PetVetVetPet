@@ -1,10 +1,12 @@
 
+
+
 public abstract class Employee implements AlarmObserver{
 
 	protected String lastname;
 	protected String firstname;
 	protected int employeeID;
-	protected boolean availability = true;
+	protected boolean currentavailability = true;
 	
 	public Employee(int employeeID, String lastname, String firstname)
 	{
@@ -20,12 +22,22 @@ public abstract class Employee implements AlarmObserver{
 	
 	public void work()
 	{
-		availability = false;
+		currentavailability = false;
+	}
+	
+	public int getEmployeeID()
+	{
+		return employeeID;
 	}
 	
 	public String getLastName()
 	{
 		return lastname;
+	}
+	
+	public boolean getAvailability()
+	{
+		return currentavailability;
 	}
 	
 	public String getFirstName()
@@ -36,6 +48,16 @@ public abstract class Employee implements AlarmObserver{
 	public void avTime()
 	{
 		
+	}
+	
+	public String getAllInfo()
+	{
+		String allinfo = 
+				"EmployeeID = " + getEmployeeID() + "\n"
+				+ "Last name = " + getLastName() + "\n"
+				+ "First name = " + getFirstName() + "\n"
+				+ "Available? = " + getAvailability();
+		return allinfo;
 	}
 	
 	

@@ -1,6 +1,7 @@
 
 public class UrgencyAlarm implements AlarmSubject {
 
+	private Pet pet;
 	private boolean emergency = false;
 	private int heartbeat;
 	private int bloodpressure;
@@ -9,50 +10,77 @@ public class UrgencyAlarm implements AlarmSubject {
 	private String emergencyconsult;
 	String description;
 	
-	public UrgencyAlarm()
+	
+	
+	public UrgencyAlarm(Pet pet)
 	{
-		
+		this.pet = pet;
+		heartbeat = 100;
+		bloodpressure = 80;
+		temperature = 38;
+		respiratoryrate = 22;
 	}
 	
-	public void heartBeatEmergency()
+	public void simulateEmergency()
+	{
+		bloodpressure = 60;
+	}
+	
+	public void checkHeartBeat()
 	{
 		if (heartbeat < 50 || heartbeat > 150)
 		{
 			emergency = true;
 			description = "HEART BEAT!";
+			notifyObservers();
 		}
 	}
 	
-	public void temperatureEmergency()
+	public void checkTemperature()
 	{
 		if (temperature < 37 || temperature > 40)
 		{
 			emergency = true;
 			description = "TEMPERATURE!";
+			notifyObservers();
 		}
 	}
 	
-	public void bloodPressureEmergency()
+	public void checkBloodPressure()
 	{
 		if (bloodpressure < 70 || bloodpressure > 90)
 		{
 			emergency = true;
 			description = "BLOOD PRESSURE!";
+			notifyObservers();
 		}
 	}
 	
-	public void respiratoryRateEmergency()
+	public void checkRespiratoryRate()
 	{
 		if (respiratoryrate < 10 || respiratoryrate > 35)
 		{
 			emergency = true;
 			description = "BREATHING!";
+			notifyObservers();
+		}
+	}
+	
+	public void checkForEmergencies()
+	{
+		while (emergency == false)
+		{
+			checkRespiratoryRate();
+			checkBloodPressure();
+			checkTemperature();
+			checkHeartBeat();
 		}
 	}
 	
 	public void emergencyConsult()
 	{
 		//
+		notifyObservers();
 	}
 
 	@Override
@@ -68,10 +96,13 @@ public class UrgencyAlarm implements AlarmSubject {
 	}
 
 	@Override
-	public void notifyObservers() {
-		// TODO Auto-generated method stub
-		
+	public void notifyObservers() 
+	{
+		String des = description;
 	}
+		
+		
+	
 	
 	
 }

@@ -30,5 +30,43 @@ public class Customer {
 	{
 		return firstname;
 	}
+	
+	public int getCustomerNumber()
+	{
+		return customernr;
+	}
+	
+	public String getStreetName()
+	{
+		return streetname;
+	}
+	
+	public int getStreetNumber()
+	{
+		return streetnumber;
+	}
+	
+	public String getZip()
+	{
+		return zipcode;
+	}
+	
+	public String getCity()
+	{
+		return city;
+	}
+	
+	public String getAllInfo()
+	{
+		String allinfo = 
+				"customer number = " + getCustomerNumber() + "\n"
+				+ "Last name = " + getLastName() + "\n"
+				+ "First name = " + getFirstName() + "\n"
+				+ "Street name = " + getStreetName() + "\n"
+				+ "Street number = " + getStreetNumber() + "\n"
+				+ "Zip code = " + getZip() + "\n"
+				+ "City = " + getCity();
+		return allinfo;
+	}
 
 }

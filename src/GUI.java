@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Button;
+import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -12,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.JPanel;
 
 public class GUI {
 
@@ -31,24 +35,45 @@ public class GUI {
 	private JLabel lblCity;
 	private JLabel lblAllergies;
 	private JLabel lblMedication;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField medicationField;
+	private JTextField descriptionField;
+	private JTextField allergiesField;
 	private JLabel lblAllergies_1;
-	private JTextField textField_3;
+	private JTextField ownerField;
 	private JLabel lblOwner;
 	private JLabel lblAge;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField bdateField;
+	private JTextField nameField;
 	private JLabel lblName;
 	private JLabel lblPetId;
-	private JTextField textField_6;
 	private JList customerList;
-	private List<String> cuslist;
+	private List<Customer> cuslist;
+	private List<Pet> petlist;
+	private List<Employee> emplist;
 	private JLabel lblBreed;
-	private JTextField textField_7;
+	private JTextField breedField;
 	private Vet vet;
-
+	private JTextField petIDField;
+	private JRadioButton catRBtn;
+	private JRadioButton RabbitRBtn;
+	private JRadioButton dogRBtn;
+	private JTextArea InfoTextArea;
+	private Button petInfoBtn;
+	private JList petList;
+	private Button getEmployeeInfoBtn;
+	private JButton button;
+	private JTextField employeeIDField;
+	private JTextField emplnameField;
+	private JTextField empfnameField;
+	private JLabel label_1;
+	private JLabel label_2;
+	private JLabel label_3;
+	private JList employeeList;
+	private JRadioButton NurseRBtn;
+	private JRadioButton SecretaryRBtn;
+	private JRadioButton SurgeonRBtn;
+	private JRadioButton DoctorRBtn;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +94,9 @@ public class GUI {
 	 * Create the application.
 	 */
 	public GUI() {
-		cuslist = new LinkedList<String>();
+		cuslist = new LinkedList<Customer>();
+		petlist = new LinkedList<Pet>();
+		emplist = new LinkedList<Employee>();
 		vet = new Vet("VetPet", "A nice Vet!");
 		initialize();	
 	}
@@ -79,7 +106,7 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 663, 370);
+		frame.setBounds(100, 100, 1197, 711);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -97,10 +124,8 @@ public class GUI {
 				String city = cityField.getText();
 				
 				Customer cus = new Customer(cusnr, lname, fname, streetname, streetnr, zip, city);
-				cuslist.add(cusnr + ", " + fname + " " + lname);
+				cuslist.add(cus);
 				customerList.setListData(cuslist.toArray());
-				
-				
 				
 				//Cat cat = new Cat("Kitty", "Persian", 2015, "A good cat", "none", "none", cus, 001);
 				//cus.getCustomerName();
@@ -114,11 +139,101 @@ public class GUI {
 		addPetBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				Customer select = (Customer) customerList.getSelectedValue();
+				ownerField.setText(select.toString());
+				int petID = Integer.parseInt(petIDField.getText());
+				String name = nameField.getText();
+				String breed = breedField.getText();
+				int date = Integer.parseInt(bdateField.getText());
+				String description = descriptionField.getText();
+				String allergies = allergiesField.getText();
+				String medication = medicationField.getText();
+				
+				if (catRBtn.isSelected())
+				{
+					Pet animal = new Cat(name, breed, date, description, allergies, medication, select, petID);
+					petlist.add(animal);
+				}
+				if (dogRBtn.isSelected())
+				{
+					Pet animal = new Dog(name, breed, date, description, allergies, medication, select, petID);
+					petlist.add(animal);
+				}
+				if (RabbitRBtn.isSelected())
+				{
+					Pet animal = new Rabbit(name, breed, date, description, allergies, medication, select, petID);
+					petlist.add(animal);
+				}
+				
+				
+				petList.setListData(petlist.toArray());
 				
 			}
 		});
 		
-		addCustomerBtn.setBounds(10, 300, 87, 22);
+		button = new JButton("Add employee");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				int employeeID = Integer.parseInt(employeeIDField.getText());
+				String lname = emplnameField.getText();
+				String fname = empfnameField.getText();
+				
+				if (NurseRBtn.isSelected())
+				{
+					Employee emp = new Nurse(employeeID, lname, fname);
+					emplist.add(emp);
+				}
+				if (SurgeonRBtn.isSelected())
+				{
+					Employee emp = new Surgeon(employeeID, lname, fname);
+					emplist.add(emp);
+				}
+				if (DoctorRBtn.isSelected())
+				{
+					Employee emp = new Doctor(employeeID, lname, fname);
+					emplist.add(emp);
+				}
+				if (SecretaryRBtn.isSelected())
+				{
+					Employee emp = new Secretary(employeeID, lname, fname);
+					emplist.add(emp);
+				}
+				
+				
+				employeeList.setListData(emplist.toArray());
+			}
+		});
+		
+		Button cusInfoBtn = new Button("get customer info");
+		cusInfoBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				Customer select = (Customer) customerList.getSelectedValue();
+				InfoTextArea.setText(select.getAllInfo());
+			}
+		});
+		
+		petInfoBtn = new Button("get pet info");
+		petInfoBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				Pet select = (Pet) petList.getSelectedValue();
+				InfoTextArea.setText(select.getAllInfo());
+			}
+		});
+		
+		getEmployeeInfoBtn = new Button("get employee info");
+		getEmployeeInfoBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				Employee select = (Employee) employeeList.getSelectedValue();
+				InfoTextArea.setText(select.getAllInfo());
+			}
+		});
+		
+		
+		addCustomerBtn.setBounds(9, 266, 87, 22);
 		frame.getContentPane().add(addCustomerBtn);
 		
 		cusnrField = new JTextField();
@@ -142,7 +257,7 @@ public class GUI {
 		frame.getContentPane().add(streetnameField);
 		
 		JLabel lblNewLabel = new JLabel("Customer number");
-		lblNewLabel.setBounds(106, 38, 87, 14);
+		lblNewLabel.setBounds(78, 38, 95, 14);
 		frame.getContentPane().add(lblNewLabel);
 		
 		lblLastName = new JLabel("Last name");
@@ -185,89 +300,170 @@ public class GUI {
 		frame.getContentPane().add(lblCity);
 		
 		lblAllergies = new JLabel("Description");
-		lblAllergies.setBounds(498, 193, 87, 14);
+		lblAllergies.setBounds(478, 223, 87, 14);
 		frame.getContentPane().add(lblAllergies);
 		
 		lblMedication = new JLabel("Medication");
-		lblMedication.setBounds(498, 224, 87, 14);
+		lblMedication.setBounds(478, 254, 87, 14);
 		frame.getContentPane().add(lblMedication);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(402, 221, 86, 20);
-		frame.getContentPane().add(textField);
+		medicationField = new JTextField();
+		medicationField.setColumns(10);
+		medicationField.setBounds(382, 251, 86, 20);
+		frame.getContentPane().add(medicationField);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(402, 190, 86, 20);
-		frame.getContentPane().add(textField_1);
+		descriptionField = new JTextField();
+		descriptionField.setColumns(10);
+		descriptionField.setBounds(382, 220, 86, 20);
+		frame.getContentPane().add(descriptionField);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(402, 252, 86, 20);
-		frame.getContentPane().add(textField_2);
+		allergiesField = new JTextField();
+		allergiesField.setColumns(10);
+		allergiesField.setBounds(382, 282, 86, 20);
+		frame.getContentPane().add(allergiesField);
 		
 		lblAllergies_1 = new JLabel("Allergies");
-		lblAllergies_1.setBounds(498, 255, 87, 14);
+		lblAllergies_1.setBounds(478, 285, 87, 14);
 		frame.getContentPane().add(lblAllergies_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(402, 159, 86, 20);
-		frame.getContentPane().add(textField_3);
+		ownerField = new JTextField();
+		ownerField.setColumns(10);
+		ownerField.setBounds(382, 173, 86, 20);
+		frame.getContentPane().add(ownerField);
 		
 		lblOwner = new JLabel("Owner");
-		lblOwner.setBounds(498, 162, 87, 14);
+		lblOwner.setBounds(478, 176, 87, 14);
 		frame.getContentPane().add(lblOwner);
 		
 		lblAge = new JLabel("Birth date");
-		lblAge.setBounds(496, 100, 69, 14);
+		lblAge.setBounds(476, 114, 69, 14);
 		frame.getContentPane().add(lblAge);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(402, 97, 86, 20);
-		frame.getContentPane().add(textField_4);
+		bdateField = new JTextField();
+		bdateField.setColumns(10);
+		bdateField.setBounds(382, 111, 86, 20);
+		frame.getContentPane().add(bdateField);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(402, 66, 86, 20);
-		frame.getContentPane().add(textField_5);
+		nameField = new JTextField();
+		nameField.setColumns(10);
+		nameField.setBounds(382, 80, 86, 20);
+		frame.getContentPane().add(nameField);
 		
 		lblName = new JLabel("Name");
-		lblName.setBounds(498, 69, 87, 14);
+		lblName.setBounds(478, 83, 87, 14);
 		frame.getContentPane().add(lblName);
 		
 		lblPetId = new JLabel("Pet ID");
-		lblPetId.setBounds(498, 38, 87, 14);
+		lblPetId.setBounds(478, 52, 87, 14);
 		frame.getContentPane().add(lblPetId);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(402, 35, 42, 20);
-		frame.getContentPane().add(textField_6);
+		petIDField = new JTextField();
+		petIDField.setColumns(10);
+		petIDField.setBounds(382, 49, 42, 20);
+		frame.getContentPane().add(petIDField);
 		
 		customerList = new JList<String>();
-		customerList.setBounds(228, 11, 164, 187);
+		customerList.setAutoscrolls(false);
+		customerList.setBounds(186, 14, 164, 187);
 		frame.getContentPane().add(customerList);
 		
 		lblBreed = new JLabel("Breed");
-		lblBreed.setBounds(496, 131, 69, 14);
+		lblBreed.setBounds(476, 145, 69, 14);
 		frame.getContentPane().add(lblBreed);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(402, 128, 86, 20);
-		frame.getContentPane().add(textField_7);
+		breedField = new JTextField();
+		breedField.setColumns(10);
+		breedField.setBounds(382, 142, 86, 20);
+		frame.getContentPane().add(breedField);
 		
 		
-		addPetBtn.setBounds(402, 299, 89, 23);
+		addPetBtn.setBounds(382, 313, 89, 23);
 		frame.getContentPane().add(addPetBtn);
 		
-		JTextPane cusDetailsPanel = new JTextPane();
-		cusDetailsPanel.setBounds(228, 209, 164, 113);
-		frame.getContentPane().add(cusDetailsPanel);
+		dogRBtn = new JRadioButton("Dog");
+		dogRBtn.setBounds(383, 14, 51, 23);
+		frame.getContentPane().add(dogRBtn);
+		
+		catRBtn = new JRadioButton("Cat");
+		catRBtn.setBounds(436, 14, 51, 23);
+		frame.getContentPane().add(catRBtn);
+		
+		RabbitRBtn = new JRadioButton("Rabbit");
+		RabbitRBtn.setBounds(489, 14, 69, 22);
+		frame.getContentPane().add(RabbitRBtn);
+		
+		InfoTextArea = new JTextArea();
+		InfoTextArea.setBounds(871, 437, 164, 128);
+		frame.getContentPane().add(InfoTextArea);
+		
+		cusInfoBtn.setActionCommand("Add Customer");
+		cusInfoBtn.setBounds(871, 571, 164, 22);
+		frame.getContentPane().add(cusInfoBtn);
+		
+		petInfoBtn.setActionCommand("Add Customer");
+		petInfoBtn.setBounds(871, 599, 164, 22);
+		frame.getContentPane().add(petInfoBtn);
+		
+		JLabel label = new JLabel("<<<");
+		label.setBounds(381, 188, 30, 20);
+		frame.getContentPane().add(label);
+		
+		petList = new JList<String>();
+		petList.setBounds(591, 14, 164, 187);
+		frame.getContentPane().add(petList);
+		
+		getEmployeeInfoBtn.setActionCommand("Add Customer");
+		getEmployeeInfoBtn.setBounds(871, 627, 164, 22);
+		frame.getContentPane().add(getEmployeeInfoBtn);
+		
+		button.setBounds(810, 181, 163, 23);
+		frame.getContentPane().add(button);
+		
+		employeeIDField = new JTextField();
+		employeeIDField.setColumns(10);
+		employeeIDField.setBounds(810, 79, 42, 20);
+		frame.getContentPane().add(employeeIDField);
+		
+		emplnameField = new JTextField();
+		emplnameField.setColumns(10);
+		emplnameField.setBounds(810, 110, 86, 20);
+		frame.getContentPane().add(emplnameField);
+		
+		empfnameField = new JTextField();
+		empfnameField.setColumns(10);
+		empfnameField.setBounds(810, 141, 86, 20);
+		frame.getContentPane().add(empfnameField);
+		
+		label_1 = new JLabel("Employee ID");
+		label_1.setBounds(906, 82, 87, 14);
+		frame.getContentPane().add(label_1);
+		
+		label_2 = new JLabel("Last name");
+		label_2.setBounds(906, 113, 87, 14);
+		frame.getContentPane().add(label_2);
+		
+		label_3 = new JLabel("First name");
+		label_3.setBounds(904, 144, 69, 14);
+		frame.getContentPane().add(label_3);
+		
+		employeeList = new JList<String>();
+		employeeList.setBounds(995, 17, 164, 187);
+		frame.getContentPane().add(employeeList);
+		
+		NurseRBtn = new JRadioButton("Nurse");
+		NurseRBtn.setBounds(808, 14, 69, 23);
+		frame.getContentPane().add(NurseRBtn);
+		
+		SecretaryRBtn = new JRadioButton("Secretary");
+		SecretaryRBtn.setBounds(807, 40, 87, 23);
+		frame.getContentPane().add(SecretaryRBtn);
+		
+		SurgeonRBtn = new JRadioButton("Surgeon");
+		SurgeonRBtn.setBounds(891, 14, 87, 23);
+		frame.getContentPane().add(SurgeonRBtn);
+		
+		DoctorRBtn = new JRadioButton("Doctor");
+		DoctorRBtn.setBounds(891, 40, 109, 23);
+		frame.getContentPane().add(DoctorRBtn);
 	}
-	
-	
 }

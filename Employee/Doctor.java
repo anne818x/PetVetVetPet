@@ -16,7 +16,7 @@ public class Doctor extends Employee
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

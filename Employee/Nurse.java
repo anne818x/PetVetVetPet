@@ -1,4 +1,6 @@
 
+
+
 public class Nurse extends Employee 
 {
 	public Nurse(int employeeID, String lastname, String firstname)

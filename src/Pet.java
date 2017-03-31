@@ -97,4 +97,18 @@ public abstract class Pet
 	{
 		this.medication = medication;
 	}
+	
+	public String getAllInfo()
+	{
+		String allinfo = 
+				"pet ID = " + getPetID() + "\n"
+				+ "Age = " + getAge() + "\n"
+				+ "Name = " + getName() + "\n"
+				+ "Description = " + getDescription() + "\n"
+				+ "Street number = " + getAllergies() + "\n"
+				+ "Zip code = " + getMedication() + "\n"
+				+ "Owner = "
+				+ getOwner().getFirstName() + " " + getOwner().getLastName();
+		return allinfo;
+	}
 }
